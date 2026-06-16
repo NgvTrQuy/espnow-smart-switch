@@ -17,7 +17,7 @@
 #define relay2 4   // D2
 
 #define switch1 14  // D5
-#define switch2 12  // D6
+#define switch2 12  // D6   
 
 // --- Timing ---
 #define SERIAL_BAUD              115200

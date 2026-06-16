@@ -50,7 +50,7 @@ void checkSwitch(int touchPin, bool *lastState, int relayPin, uint8_t relay) {
             digitalWrite(relayPin, newRelayState);
 
             Serial.printf("Touch%d -> %d\n", relay, newRelayState);
-            espSlave.sendServerState(relay, newRelayState);
+            espSlave.sendData(relay, newRelayState);
 
             lastTouchTime[relay] = millis();
         }
@@ -60,13 +60,6 @@ void checkSwitch(int touchPin, bool *lastState, int relayPin, uint8_t relay) {
 }
 
 void loop() {
-    // if (WiFi.status() != WL_CONNECTED) {
-    //     if (millis() - lastReconnectAttempt > 5000) {
-    //         Serial.println("⚠️ Mất kết nối WiFi. Thử lại...");
-    //         espSlave.connectWiFi();
-    //         lastReconnectAttempt = millis();
-    //     }
-    // }
 
     checkSwitch(switch1, &lastState1, relay1, 1);
     checkSwitch(switch2, &lastState2, relay2, 2);

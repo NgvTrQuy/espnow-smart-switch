@@ -7,8 +7,9 @@ ESPNOW espNow;
 
 uint8_t slave1MAC[] = SLAVE1_MAC_INIT;
 uint8_t slave2MAC[] = SLAVE2_MAC_INIT;
+uint8_t slave3MAC[] = SLAVE3_MAC_INIT;
 
-uint8_t* slaveMACs[] = {slave1MAC, slave2MAC};
+uint8_t* slaveMACs[] = {slave1MAC, slave2MAC, slave3MAC};
 
 //Biến status message
 message lastMsg;      // Lưu dữ liệu nhận mới nhất
@@ -26,7 +27,6 @@ void ESPNOW::begin() {
     // 
     Serial.println("===== WiFi Channel Info =====");
     Serial.printf("STA Channel:%d Status:%d MAC:%s\n", WiFi.channel(), WiFi.status(), WiFi.macAddress().c_str());
-
     Serial.printf("AP  Channel:%d IP:%s MAC:%s\n",WiFi.channel(),WiFi.softAPIP().toString().c_str(), WiFi.softAPmacAddress().c_str());
 
     //Serial.printf("Num Slave Connect AP: %d\n", WiFi.softAPgetStationNum());                  // Số client đang kết nối 
@@ -87,7 +87,7 @@ void ESPNOW::sendData(message &data) {
 }
 
 // 🟢 Gửi lệnh xuống slave
-void ESPNOW::sendSlaveCommand(int id,uint8_t relay, uint8_t command) {
+void ESPNOW::sendSlaveCommand(uint8_t id,uint8_t relay, uint16_t command) {
     message msg; 
     msg.id = id;
     msg.relay = relay;
@@ -96,35 +96,25 @@ void ESPNOW::sendSlaveCommand(int id,uint8_t relay, uint8_t command) {
 }
 
 
-void OnDataRecv(const esp_now_recv_info_t *info,
-                    const uint8_t *data,
-                    int len)
-        {
-            // MAC của thiết bị gửi
-            const uint8_t *mac = info->src_addr;
-            (void)mac;  
-            Serial.println("ESP32 nhận state từ slave");
-            // Kiểm tra kích thước dữ liệu đúng với struct message
-            if (len == (int)sizeof(message)) {
-                memcpy(&lastMsg, data, sizeof(message));
-                newMsg = true;
-            }
-        }
+void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data,int len){
+    // MAC của thiết bị gửi
+    const uint8_t *mac = info->src_addr;
+    (void)mac;  // báo với compiler: mac tồn tại nhưng tạm thời chưa dùng đến, đừng cảnh báo.
+    Serial.println("Nhận state từ slave");
+    // Kiểm tra kích thước dữ liệu đúng với struct message
+    if (len == (int)sizeof(message)) {
+        memcpy(&lastMsg, data, sizeof(message));
+        newMsg = true;
+    }
+}
 
-void OnDataSent(const wifi_tx_info_t *info,
-                    esp_now_send_status_t status)
-        {
-            // Có thể lấy MAC đích nếu cần:
-            // const uint8_t *mac = info->des_addr;
-            (void)info;
-
-            Serial.print("State: ");
-            Serial.println(
-                status == ESP_NOW_SEND_SUCCESS ?
-                "✅ Success" :
-                "❌ Fail"
-            );
-        }
+void OnDataSent(const wifi_tx_info_t *info,esp_now_send_status_t status){
+    // Có thể lấy MAC đích:
+    const uint8_t *mac = info->des_addr;
+    (void)info;
+    Serial.print("State: ");
+    Serial.println(status == ESP_NOW_SEND_SUCCESS ?"✅ Success" :"❌ Fail");
+}
 
 
 

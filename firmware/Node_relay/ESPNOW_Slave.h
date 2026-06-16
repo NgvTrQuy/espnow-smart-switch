@@ -7,9 +7,9 @@
 
 // Định nghĩa struct message
 struct message {
-    int id = ID;
+    uint8_t id = ID;
     uint8_t relay;
-    uint8_t command;
+    uint16_t command;
 };
 
 class ESPNOW_Slave {
@@ -19,8 +19,7 @@ public:
     void begin(); // Khởi tạo ESP-NOW
     void addPeer(const uint8_t *peer_addr); // Thêm peer vào ESP-NOW
     void connectWiFi(); // Kết nối WiFi Gateway
-    void sendData(message &data); // Gửi dữ liệu đến Server
-    void sendServerState(uint8_t relay, uint8_t command); // Gửi trạng thái đến Server
+    void sendData(uint8_t relay, uint16_t command); // Gửi dữ liệu đến Server
 };
 
 // Instance dùng chung (không cần tạo trong .ino)

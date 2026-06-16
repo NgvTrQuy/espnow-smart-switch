@@ -69,13 +69,17 @@ void ESPNOW_Slave::connectWiFi() {
 }
 
 // Gửi dữ liệu đến Server
-void ESPNOW_Slave::sendData(message &data) {
+void ESPNOW_Slave::sendData(uint8_t relay, uint16_t command) {
+    message msg;
+    msg.relay = relay;
+    msg.command = command;
+
     // Hiển thị dữ liệu gửi đến Server
-    Serial.printf("[ESP-NOW] 📤 Slave%d Relay:%d Cmd:%d ", data.id, data.relay, data.command);
+    Serial.printf("[ESP-NOW] 📤 Slave%d Relay:%d Cmd:%d ", msg.id, msg.relay, msg.command);
 
-   int result = esp_now_send(serverMAC, (uint8_t *)&data, sizeof(data));
+   int result = esp_now_send(serverMAC, (uint8_t *)&msg, sizeof(msg));
 
-// Kiểm tra kết quả gửi dữ liệu
+    // Kiểm tra kết quả gửi dữ liệu
     if (result == 0) {
         Serial.println("✅ Data sent (callback pending)");
     } else {
@@ -83,15 +87,6 @@ void ESPNOW_Slave::sendData(message &data) {
     }
     // Cho hệ thống WiFi thở
     yield();
-}
-
-// Gửi trạng thái đến Server
-void ESPNOW_Slave::sendServerState(uint8_t relay, uint8_t command) {
-      Serial.println("CALL sendServerState");
-    message msg;
-    msg.relay = relay;
-    msg.command = command;
-    sendData(msg);
 }
 
 // Nhận dữ liệu từ Server

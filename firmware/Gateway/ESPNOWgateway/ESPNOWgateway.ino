@@ -106,6 +106,8 @@ void setup() {
     // Thêm peer (Slave)
     espNow.addPeer(slave1MAC);
     espNow.addPeer(slave2MAC);
+    espNow.addPeer(slave3MAC);
+    
     // Hiển thị số lượng slave đang kết nối
     Serial.printf("Num Slave Connect AP: %d\n", WiFi.softAPgetStationNum());
 }

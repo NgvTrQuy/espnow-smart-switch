@@ -51,3 +51,10 @@ BLYNK_WRITE(V9) { espNow.sendSlaveCommand(2, 1, param.asInt()); }
 BLYNK_WRITE(V10) { espNow.sendSlaveCommand(2, 2, param.asInt()); }
 BLYNK_WRITE(V11) { espNow.sendSlaveCommand(2, 3, param.asInt()); }
 BLYNK_WRITE(V12) { espNow.sendSlaveCommand(2, 4, param.asInt()); }
+
+BLYNK_WRITE(V13) { espNow.sendSlaveCommand(3, 1, param.asInt()); }
+// BLYNK_WRITE(V14) { espNow.sendSlaveCommand(3, 2, param.asInt()); }
+// BLYNK_WRITE(V15) { espNow.sendSlaveCommand(3, 3, param.asInt()); }
+// BLYNK_WRITE(V16) { espNow.sendSlaveCommand(3, 4, param.asInt()); }
+BLYNK_WRITE(V17) { espNow.sendSlaveCommand(3, 5, param.asInt()); }//reset energy
+BLYNK_WRITE(V18) { espNow.sendSlaveCommand(3, 6, param.asFloat()); }//ngắt tải
