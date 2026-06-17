@@ -20,7 +20,7 @@ Unlike traditional WiFi smart switches that depend heavily on cloud communicatio
 The architecture is inspired by commercial smart home systems such as:
 - Zigbee Smart Switch
 - Aqara
-- Philips Hue
+- Hunonic Switch
 - Tuya Smart Switch
 
 but implemented using ESP32/ESP8266 hardware and ESP-NOW protocol.
@@ -142,7 +142,7 @@ espnow-smart-switch/
 2. Gateway receives command through WiFi/Blynk.
 3. Gateway forwards command using ESP-NOW.
 4. Relay node executes command.
-5. Relay node sends ACK response.
+5. Relay node sends response.
 6. Gateway updates device status.
 
 ---
@@ -152,7 +152,7 @@ espnow-smart-switch/
 The following parameters are evaluated:
 
 - End-to-end latency
-- ACK response time
+- Response time
 - Packet delivery ratio
 - Packet loss
 - RSSI vs distance
@@ -166,7 +166,7 @@ The following parameters are evaluated:
 | Parameter | Target |
 |---|---|
 | Control latency | < 50 ms |
-| ACK response | < 50 ms |
+| Response | < 50 ms |
 | Packet success rate | > 99% |
 | Indoor range | > 20 m |
 | Outdoor range | > 100 m |
